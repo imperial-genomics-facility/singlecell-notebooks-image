@@ -16,6 +16,10 @@ RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
       locales \
       wget \
       unzip \
+      cmake \
+      libxml2-dev \
+      zlib1g-dev \
+      libfftw3-dev \
       build-essential && \
     locale-gen en_US.UTF-8 && \
     dpkg-reconfigure locales && \
