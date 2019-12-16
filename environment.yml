@@ -17,6 +17,7 @@ dependencies:
   - bioconductor-scran=1.10.1
   - pip
   - pip:
+    - jupyter
     - matplotlib
     - seaborn
     - sklearn
