@@ -23,5 +23,7 @@ dependencies:
     - numpy
     - tqdm
     - scrublet
-    - cmake
+    - mkl
+    - fitsne
+    - leidenalg
     - pegasuspy==0.16.2
