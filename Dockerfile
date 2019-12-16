@@ -46,7 +46,9 @@ RUN conda env create -q -n notebook-env --file /home/$NB_USER/environment.yml &&
     rm -rf /home/$NB_USER/.cache && \
     rm -rf /home/$NB_USER/tmp && \
     mkdir -p /home/$NB_USER/tmp && \
-    mkdir -p /home/$NB_USER/.cache
+    mkdir -p /home/$NB_USER/.cache && \
+    echo "c.NotebookApp.password = u'sha1:0e221c95f37a:f9e0f0df2c274287b168eaa378877327fdd39029'" > /home/$NB_USER/.jupyter/jupyter_notebook_config.py
+
 COPY entrypoint.sh /home/$NB_USER/entrypoint.sh
 EXPOSE 8888
 ENTRYPOINT [ "/usr/local/bin/tini","--","/home/vmuser/entrypoint.sh" ]
