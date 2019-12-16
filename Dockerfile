@@ -48,5 +48,6 @@ RUN conda env create -q -n notebook-env --file /home/$NB_USER/environment.yml &&
     mkdir -p /home/$NB_USER/tmp && \
     mkdir -p /home/$NB_USER/.cache
 COPY entrypoint.sh /home/$NB_USER/entrypoint.sh
+EXPOSE 8888
 ENTRYPOINT [ "/usr/local/bin/tini","--","/home/vmuser/entrypoint.sh" ]
-CMD [ "bash" ]
+CMD [ "notebook" ]
