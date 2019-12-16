@@ -38,7 +38,8 @@ USER $NB_USER
 WORKDIR /home/$NB_USER
 COPY . ${HOME}
 USER root
-RUN chown -R ${NB_UID} ${HOME}
+RUN chown -R ${NB_UID} /home/$NB_USER && \
+    chmod a+x /home/$NB_USER/entrypoint.sh
 USER ${NB_USER}
 WORKDIR /home/$NB_USER
 RUN mkdir -p /home/$NB_USER/tmp
