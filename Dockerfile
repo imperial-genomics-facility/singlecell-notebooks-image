@@ -53,8 +53,8 @@ RUN  mkdir -p ${TMPDIR} && \
        https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
      bash /home/$NB_USER/Miniconda3-latest-Linux-x86_64.sh -b
 ENV PATH $PATH:/home/$NB_USER/miniconda3/bin/
-RUN conda env create -q -n notebook-env --file /home/$NB_USER/environment.yml
-RUN echo ". /home/$NB_USER/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc && \
+RUN conda env create -q -n notebook-env --file /home/$NB_USER/environment.yml && \
+    echo ". /home/$NB_USER/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "source activate notebook-env" >> ~/.bashrc && \
     conda clean -a -y && \
     rm -rf /home/$NB_USER/.cache && \
