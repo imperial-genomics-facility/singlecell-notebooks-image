@@ -46,8 +46,9 @@ RUN chown -R ${NB_UID} /home/$NB_USER && \
      rm -rf /tmp/*
 USER ${NB_USER}
 WORKDIR /home/$NB_USER
-ENV TMPDIR=/tmp
-RUN  wget --quiet --no-check-certificate \
+ENV TMPDIR=/home/$NB_USER/.tmp
+RUN  mkdir -p ${TMPDIR} && \
+     wget --quiet --no-check-certificate \
        -O /home/$NB_USER/Miniconda3-latest-Linux-x86_64.sh \
        https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
      bash /home/$NB_USER/Miniconda3-latest-Linux-x86_64.sh -b
@@ -58,6 +59,8 @@ RUN echo ". /home/$NB_USER/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc && \
     conda clean -a -y && \
     rm -rf /home/$NB_USER/.cache && \
     rm -rf /tmp/* && \
+    rm -rf ${TMPDIR} && \
+    mkdir -p ${TMPDIR} && \
     mkdir -p /home/$NB_USER/.cache && \
     mkdir -p /home/$NB_USER/.jupyter && \
     find miniconda3/ -type f -name *.pyc -exec rm -f {} \; && \
