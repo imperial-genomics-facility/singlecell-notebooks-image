@@ -50,7 +50,7 @@ ENV TMPDIR=/home/$NB_USER/.tmp
 RUN  mkdir -p ${TMPDIR} && \
      wget --quiet --no-check-certificate \
        -O /home/$NB_USER/Miniconda3-latest-Linux-x86_64.sh \
-       https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+       https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
      bash /home/$NB_USER/Miniconda3-latest-Linux-x86_64.sh -b
 ENV PATH $PATH:/home/$NB_USER/miniconda3/bin/
 RUN conda config –set safety_checks disabled && \
