@@ -21,6 +21,7 @@ RUN adduser --disabled-password \
       cmake \
       g++ \
       libxml2-dev \
+      ca-certificates \
       zlib1g-dev \
       libfftw3-dev \
       build-essential && \
@@ -31,7 +32,9 @@ RUN adduser --disabled-password \
     rm -rf /var/lib/apt/lists/*
 ENV TINI_VERSION v0.18.0
 RUN mkdir -p /tmp && \
-    wget --quiet --no-check-certificate -O /tmp/tini https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini && \
+    wget --quiet --no-check-certificate \
+      -O /tmp/tini \
+      https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini && \
     mv /tmp/tini /usr/local/bin/tini && \
     chmod +x /usr/local/bin/tini
 USER $NB_USER
@@ -42,18 +45,18 @@ RUN chown -R ${NB_UID} /home/$NB_USER && \
     chmod a+x /home/$NB_USER/entrypoint.sh
 USER ${NB_USER}
 WORKDIR /home/$NB_USER
-RUN mkdir -p /home/$NB_USER/tmp
-ENV TMPDIR=/home/$NB_USER/tmp
-RUN  wget --quiet --no-check-certificate -O /home/$NB_USER/Miniconda3-latest-Linux-x86_64.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+ENV TMPDIR=/tmp
+RUN  wget --quiet --no-check-certificate \
+       -O /home/$NB_USER/Miniconda3-latest-Linux-x86_64.sh \
+       https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
      bash /home/$NB_USER/Miniconda3-latest-Linux-x86_64.sh -b
 ENV PATH $PATH:/home/$NB_USER/miniconda3/bin/
-RUN conda env create -q -n notebook-env --file /home/$NB_USER/environment.yml && \
-    echo ". /home/$NB_USER/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc && \
+RUN conda env create -q -n notebook-env --file /home/$NB_USER/environment.yml
+RUN echo ". /home/$NB_USER/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "source activate notebook-env" >> ~/.bashrc && \
     conda clean -i -t -q -y && \
     rm -rf /home/$NB_USER/.cache && \
-    rm -rf /home/$NB_USER/tmp && \
-    mkdir -p /home/$NB_USER/tmp && \
+    rm -rf /tmp/* && \
     mkdir -p /home/$NB_USER/.cache && \
     mkdir -p /home/$NB_USER/.jupyter && \
     echo "c.NotebookApp.password = u'sha1:0e221c95f37a:f9e0f0df2c274287b168eaa378877327fdd39029'" > /home/$NB_USER/.jupyter/jupyter_notebook_config.py
